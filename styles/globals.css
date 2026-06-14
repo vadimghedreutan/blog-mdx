@@ -1,8 +1,16 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+
+/* Tailwind v4: class-based dark mode for next-themes compatibility. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+@plugin "@tailwindcss/typography";
+
+@theme inline {
+	--font-family-kasei: var(--font-kasei), ui-serif, Georgia, "Times New Roman", serif;
+}
 
 @layer base {
-    html {
-        @apply h-full scroll-smooth;
-    } }
+	html {
+		@apply h-full scroll-smooth;
+	}
+}

@@ -1,20 +1,31 @@
-import getPostMetadata from "@/components/getPostMetadata"
+import type { Metadata } from "next"
+import { getPostMetadata, sortPostsByDate } from "@/lib/posts"
+import { siteConfig } from "@/lib/site"
 import PostList from "@/components/PostList"
 
-const HomePage = () => {
-	const postMetadata = getPostMetadata()
+export const metadata: Metadata = {
+	title: "Blog",
+	description: siteConfig.description,
+	alternates: {
+		canonical: "/",
+	},
+	openGraph: {
+		title: `${siteConfig.name} Blog`,
+		description: siteConfig.description,
+		url: "/",
+		type: "website",
+	},
+}
+
+export default function HomePage() {
+	const postMetadata = sortPostsByDate(getPostMetadata())
+
 	return (
 		<div>
-			<h1 className="font-kasei font-bold text-4xl pb-8">Blog</h1>
-			{postMetadata &&
-				postMetadata
-					.sort(
-						(a, b) =>
-							new Date(b.date).getDate() -
-							new Date(a.date).getDate()
-					)
-					.map((post) => <PostList key={post.slug} {...post} />)}
+			<h1 className="pb-8 font-kasei text-4xl font-bold">Blog</h1>
+			{postMetadata.map((post) => (
+				<PostList key={post.slug} {...post} />
+			))}
 		</div>
 	)
 }
-export default HomePage
